@@ -55,21 +55,21 @@ class Application(db.Model):
     cand_id = db.Column(db.Integer,db.ForeignKey('candidate.cand_id'),nullable=False)
     job_id = db.Column(db.Integer,db.ForeignKey('job.job_id'),nullable=False)
 
-class Education_History(db.Model):
+class Education_Historys(db.Model):
     edu_id = db.Column(db.Integer,primary_key=True)
     cand_id = db.Column(db.Integer,db.ForeignKey('candidate.cand_id'),nullable=False)
     institution_name = db.Column(db.String(20), nullable=False)
     level_of_study = db.Column(db.String(10), nullable=False)
-    from_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    to_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    from_date = db.Column(db.String(20), nullable=False)
+    to_date = db.Column(db.String(20), nullable=False)
     
 class Employment_History(db.Model):
     eh_id = db.Column(db.Integer,primary_key=True)
     cand_id = db.Column(db.Integer,db.ForeignKey('candidate.cand_id'),nullable=False)
     company_name = db.Column(db.String(20), nullable=False)
     designation = db.Column(db.String(20), nullable=False)
-    from_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    to_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    from_date = db.Column(db.String(20), nullable=False)
+    to_date = db.Column(db.String(20), nullable=False)
 
 class Subscription(db.Model):
     sub_id = db.Column(db.Integer,primary_key=True)
@@ -84,3 +84,6 @@ class Job(db.Model):
     expiry_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     e_id = db.Column(db.Integer,db.ForeignKey('employer.emp_id'),nullable=False)
     short_description = db.Column(db.String(20))
+
+db.create_all()
+db.session.commit()

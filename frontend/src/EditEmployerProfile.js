@@ -2,41 +2,38 @@ import React,{Component} from 'react';
 import './App.css';
 import axios from 'axios'
 
-class EditProfile extends Component {
+class EditEmployerProfile extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
             flag:false,
-            fname:"",
-            lname:"",
-            uname:"",
-            email: "",
+            company_name:"",
+            emp_full_name:"",
+            emp_email: "",
             address:"",
-            contact:"",
-            password: "",
+            emp_contact_no:"",
+            emp_pwd: "",
+            emp_address: "",
             hashpwd:"",
-            gender:"",
-            resume:"",
-            profileImage:""
+            profileImage:"",
+            id:''
           };
 
-        axios.get('http://localhost:8000/api/candidate/'+localStorage.getItem('user'),  {
+        axios.get('http://localhost:8000/api/employer/'+localStorage.getItem('emp_user'),  {
             headers: {
                 'Content-Type': 'application/json',
              }
           }).then(res => {
-              console.log(res.data)
+              console.log(localStorage.getItem('emp_user'),res.data)
             if(res.data!=null){
                 this.setState({
-                    fname:res.data.cand_fname,
-                    lname:res.data.cand_lname,
-                    uname:res.data.cand_uname,
-                    hashpwd:res.data.cand_pwd,
-                    email: res.data.cand_email_id,
-                    address:res.data.cand_address,
-                    contact:res.data.cand_contact_no,
-                    gender:res.data.cand_gender,
+                    company_name:res.data.emp_fname,
+                    emp_full_name:res.data.emp_lname,
+                    emp_email: res.data.emp_email_id,
+                    emp_address:res.data.emp_address,
+                    emp_contact_no:res.data.emp_contact_no,
+                    emp_pwd: res.data.emp_pwd,
                 });
             }
               
@@ -79,18 +76,15 @@ class EditProfile extends Component {
       handleSubmit = event => {
         event.preventDefault();
         let data=JSON.stringify({
-          cand_UName:this.state.uname,
-          cand_pwd:this.state.hashpwd,
-          cand_FName:this.state.fname,
-          cand_LName:this.state.lname,
-          cand_EMail_ID:this.state.email,
-          cand_Gender:this.state.gender,
-          cand_Address:this.state.address,
-          cand_Contact_No:this.state.contact,
-          resume:this.state.resume
+            emp_name:this.state.company_name,
+            emp_pwd:this.state.hashpwd,
+            emp_full_name:this.state.emp_full_name,
+            emp_email_id:this.state.emp_email,
+            emp_address:this.state.emp_address,
+            emp_contact_no:this.state.emp_contact_no
         });
             
-        axios.put('http://localhost:8000/api/candidate/'+this.state.uname,  data ,  {
+        axios.put('http://localhost:8000/api/employer/'+this.state.emp_email,  data ,  {
           headers: {
               'Content-Type': 'application/json'
           }
@@ -109,16 +103,18 @@ class EditProfile extends Component {
                             Update Details
                     </h1>
                     <form onSubmit={this.handleSubmit}>  
-                        Change First Name &nbsp;<input type="text" value={this.state.fname} id="fname" className="FirstName text_signup" onChange={this.handleChange} placeholder="Enter First Name"/>
+                        <input type="text" value={this.state.company_name} id="company_name" onChange={this.handleChange} className="text_signup" placeholder="Enter Company Name"/>
                         <br />
-                        Change Last Name &nbsp;<input type="text" value={this.state.lname} id="lname" className="LastName text_signup" onChange={this.handleChange} placeholder="Enter last Name"/>
+                        <input type="text" value={this.state.emp_full_name} id="emp_full_name" onChange={this.handleChange} className="text_signup" placeholder="Enter Employer's Full Name"/>
                         <br />
-                        Change Contact &nbsp;<input type="text" value={this.state.contact} id="contact" className="ContactNo text_signup" onChange={this.handleChange} placeholder="Enter Phone Number"/>
+                        <input type="text" value={this.state.emp_contact_no} id="emp_contact_no" onChange={this.handleChange} className="text_signup" placeholder="Enter Contact Number"/>
                         <br />
-                        Change Email &nbsp;<input type="email" value={this.state.email} id="email" className="Email_signup text_signup" onChange={this.handleChange} placeholder="Enter Email Address"/>
+                        <input type="text" value={this.state.emp_email} id="emp_email" onChange={this.handleChange} className="text_signup" placeholder="Enter Primary Email"/>
                         <br />
+                        <input type="text" value={this.state.emp_address} id="emp_address" onChange={this.handleChange} className="text_signup" placeholder="Enter Company Address"/>
                         <br />
-                        Change Password &nbsp;<input type="password" value={this.state.hashpwd} id="password" className="Password_signup text_signup" onChange={this.hashPassword} placeholder="Password"/>
+                        <input type="password" value={this.state.emp_pwd} id="emp_pwd" onChange={this.hashPassword} className="text_signup" placeholder="Enter Password"/>
+                        <br />
                         <br />
                         <input type="submit" value="Save" id="signUpbtn"/>
                         <input type="button" value="cancel" id="cancel" onClick={this.back}/>
@@ -133,4 +129,4 @@ class EditProfile extends Component {
     }
 }
 
-export default EditProfile;
+export default EditEmployerProfile;

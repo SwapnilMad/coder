@@ -7,6 +7,14 @@ import CandidateHome from './CandidateHome';
 import Nav from './Nav';
 import UpdateProfile from './UpdateProfile';
 import EditProfile from './EditProfile';
+import EditCandidateEducation from './EditCandidateEducation'
+import EditCandidateEmployment from './EditCandidateEmployment'
+import EmployerHome from './EmployerHome'
+import Employerprofile from './Employerprofile'
+import PostJobs from './PostJobs'
+import EmpNav from './EmpNav'
+import EmployerRegistration from './EmployerRegistration'
+import EditEmployerProfile from './EditEmployerProfile'
 import * as serviceWorker from './serviceWorker';
 import history from './history';
 
@@ -16,8 +24,16 @@ const routing = (
         <Route exact path="/" component={App} />
         <Route path="/cand" component={Nav} />
         <Route path="/cand/home" component={CandidateHome} />
-        <Route path="/cand/update" component={UpdateProfile} />
+        <Route  path="/cand/update" component={UpdateProfile} />
         <Route path="/cand/edit" component={EditProfile} />
+        <Route path="/cand/editedu" component={EditCandidateEducation} />
+        <Route path="/cand/editemp" component={EditCandidateEmployment} />
+        <Route path="/emp" component={EmpNav} />
+        <Route exat path="/empregister" component={EmployerRegistration} />
+        <Route path="/emp/home" component={EmployerHome} />
+        <Route path="/emp/update" component={Employerprofile} />
+        <Route path="/emp/jobpost" component={PostJobs} />
+        <Route path="/emp/edit" component={EditEmployerProfile} />
       </div>
     </Router>
   )

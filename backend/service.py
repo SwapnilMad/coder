@@ -2,10 +2,10 @@ import os
 import json
 from flask import Flask,request
 from flask_cors import CORS
-from databasecreate import db,Candidate,AlchemyEncoder
+from databasecreate import db,Candidate,AlchemyEncoder,Education_Historys,Employment_History,Employer
 from werkzeug import secure_filename
 
-UPLOAD_FOLDER = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/src/resource/candidateImage'
+UPLOAD_FOLDER = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/public/candidateImage'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app=Flask(__name__)
@@ -34,7 +34,56 @@ def candinsert():
         ,resume=data['resume'])
     db.session.add(cand)
     db.session.commit()
+    return str(cand.cand_id)
+
+@app.route('/api/candidate/education',methods=['POST'])
+def candeduinsert():
+    data=request.get_json()
+    for d in data:
+        print(d)
+        edu=Education_Historys(cand_id=d['cand_id'],institution_name=d['cand_institute'],level_of_study=d['cand_level'],from_date=d['cand_fromdate'],to_date=d['cand_todate'])
+        db.session.add(edu)
+        db.session.commit()
     return "success"
+
+@app.route('/api/candidate/education/<string:edu_id>',methods=['PUT','DELETE'])
+def updatedeletecandedu(edu_id):
+    edu = db.session.query(Education_Historys).filter_by(edu_id=edu_id).first()
+    if request.method=='DELETE':
+        db.session.delete(edu)
+        db.session.commit()
+    elif request.method=='PUT':
+        d = request.get_json()
+        edu.institution_name=d['cand_institute']
+        edu.level_of_study=d['cand_level']
+        edu.from_date=d['cand_fromdate']
+        edu.to_date=d['cand_todate']
+        db.session.commit()
+    return 'success'
+
+@app.route('/api/candidate/employment',methods=['POST'])
+def candempinsert():
+    data=request.get_json()
+    for d in data:
+        emp=Employment_History(cand_id=d['cand_id'],company_name=d['employer'],designation=d['designation'],from_date=d['emp_fromdate'],to_date=d['emp_todate'])
+        db.session.add(emp)
+        db.session.commit()
+    return "success"
+
+@app.route('/api/candidate/education/<string:eh_id>',methods=['PUT','DELETE'])
+def updatedeletecandemp(eh_id):
+    emp = db.session.query(Employment_History).filter_by(eh_id=eh_id).first()
+    if request.method=='DELETE':
+        db.session.delete(emp)
+        db.session.commit()
+    elif request.method=='PUT':
+        d = request.get_json()
+        emp.company_name=d['employer']
+        emp.designation=d['designation']
+        emp.from_date=d['emp_fromdate']
+        emp.to_date=d['emp_todate']
+        db.session.commit()
+    return 'success'
 
 @app.route('/api/candidate/<string:ucand>',methods=['GET'])
 def canexist(ucand):
@@ -45,7 +94,8 @@ def canexist(ucand):
 def updatedeletecand(ucand):
     cand = db.session.query(Candidate).filter_by(cand_uname=ucand).first()
     if request.method=='DELETE':
-        print(cand)
+        db.session.query(Employment_History).filter_by(cand_id=cand.cand_id).delete()
+        db.session.query(Education_Historys).filter_by(cand_id=cand.cand_id).delete()
         db.session.delete(cand)
         db.session.commit()
     elif request.method=='PUT':
@@ -69,6 +119,65 @@ def updatedeletecand(ucand):
 def showall():
     cand=db.session.query(Candidate).all()
     return json.dumps(cand,cls=AlchemyEncoder)
-    
+
+@app.route('/api/candidate/education',methods=['GET'])
+def showallcandedu():
+    edu=db.session.query(Education_Historys).all()
+    return json.dumps(edu,cls=AlchemyEncoder)
+
+@app.route('/api/candidate/education/<string:cid>',methods=['GET'])
+def showcandedu(cid):
+    edu=db.session.query(Education_Historys).filter_by(cand_id=cid).all()
+    return json.dumps(edu,cls=AlchemyEncoder)
+
+@app.route('/api/candidate/employment',methods=['GET'])
+def showallcandemp():
+    emp=db.session.query(Employment_History).all()
+    return json.dumps(emp,cls=AlchemyEncoder)    
+
+@app.route('/api/candidate/employment/<string:cid>',methods=['GET'])
+def showcandemp(cid):
+    emp=db.session.query(Employment_History).filter_by(cand_id=cid).all()
+    return json.dumps(emp,cls=AlchemyEncoder)
+
+
+@app.route('/api/employer',methods=['GET'])
+def showallemployer():
+    empr=db.session.query(Employer).all()
+    return json.dumps(empr, cls=AlchemyEncoder)
+
+@app.route('/api/employer',methods=['POST'])
+def emprinsert():
+    data=request.get_json()
+    print(data)
+    empr=Employer(emp_pwd=data['emp_pwd'],emp_fname=data['emp_name'],emp_lname=data['emp_full_name'],
+        emp_email_id=data['emp_email_id'],emp_address=data['emp_address'],emp_sub_plan='123',emp_contact_no=data['emp_contact_no'])
+    db.session.add(empr)
+    db.session.commit()
+    return str(empr.emp_id)
+
+@app.route('/api/employer/<string:empr>',methods=['PUT','DELETE'])
+def updatedeleteempr(empr):
+    emp = db.session.query(Employer).filter_by(emp_email_id=empr).first()
+    if request.method=='DELETE':
+        db.session.delete(emp)
+        db.session.commit()
+    elif request.method=='PUT':
+        data = request.get_json()
+        emp.emp_pwd = data['emp_pwd']
+        emp.emp_fname = data['emp_name']
+        emp.emp_lname = data['emp_full_name']
+        emp.emp_email_id = data['emp_email_id']
+        emp.emp_address = data['emp_address']
+        emp.emp_sub_plan = '123'
+        emp.emp_contact_no = data['emp_contact_no']
+        db.session.commit()
+    return 'success'
+
+@app.route('/api/employer/<string:email_id>',methods=['GET'])
+def empremailexist(email_id):
+    empr=db.session.query(Employer).filter_by(emp_email_id=email_id).first()
+    return  json.dumps(empr,cls=AlchemyEncoder)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)

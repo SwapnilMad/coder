@@ -1,31 +1,17 @@
 body{
-  padding: 0;
   margin: 0;
-  background-color: black
+  background-image: linear-gradient(#f7f8f8,#acbb78);
+  
 }
-#header{
- background-color: black;
- height:10%;
- width: 100%;
-
-}   
+ 
 
 #main{
-  background-color: cyan;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("./resource/backgroundHome.jpg");
-  /* width: 100%; */
-  height: 74.5%;
+   width: 100%; 
+    height: 93vh;
   /* object-fit: contain; */
-  padding: 20px;
-
-  /* text-align: center; */
-
 } 
 
 #footer{
-  background-color: black;
   width: 100%;
   /* height: 10%; */
   overflow: fill;
@@ -37,14 +23,6 @@ body{
   display: grid;
   grid-template-columns: 30% 70%;
   /* padding: 10px; */
-  }
-
-.grid-item {
-  /* background-color: rgba(255, 255, 255, 0.8); */
-  /* border: 1px solid rgba(0, 0, 0, 0.8); */
-  /* padding: 20px; */
-  /* font-size: 30px; */
-  /* text-align: center; */
   }
 
 .left{
@@ -67,16 +45,6 @@ body{
 
 }
 
-#user_name{
-  width: 30%;
-  height: 100%;
-}
-
-#password{
-  width: 30%;
-  height: 100%;
-}
-
 #signbtn{
   height: 100%;
   width: 10%;
@@ -92,12 +60,12 @@ body{
 .signup_form {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 20%;
+  width: 50%;
   border-radius: 5px;
   padding: 2px 16px;
   background-color: transparent;
   text-align: center;
-  margin-left: 40%;
+  margin-left: 25%;
   }
 
 .signup_form:hover {
@@ -111,7 +79,7 @@ body{
   padding: 5px;
 }
 
-#signUpbtn {
+.signUpbtn {
           /* background-color: #4CAF50; Green */
   border: none;
   /* color: white; */
@@ -125,4 +93,54 @@ body{
   background-color: white;
   color: black;
   border: 2px solid #e7e7e7;
+}
+
+.hide{
+  display: none;
+}
+
+.show{
+  height:90vh;
+}
+
+.edugrid,.compgrid{
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%; 
+}
+
+.edugrid>div,.compgrid>div{
+  padding:2%;
+  border-style: none groove solid none;
+ }
+
+ .loginnav{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+  height:7vh;
+  width: 100%;   
+}   
+
+.loginnav>form>li>a,.loginnav>form>li>input {
+  display: block;
+  padding: 12px;
+  resize: vertical;
+  float: right;
+  margin-left: 3px;
+}
+
+.loginnav>form>li>input{
+  margin-top:5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 2vh;
+}
+
+.loginnav>li>div{
+  color:white;
+  font-size: 40px;
+  padding-right: 50px;
+  float:left;
 }

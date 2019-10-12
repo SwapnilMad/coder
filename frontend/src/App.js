@@ -5,16 +5,23 @@ import { withRouter } from "react-router-dom";
 import history from './history';
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    if(localStorage.getItem('user')){
+      history.push("/cand/home")
+    }
+  }
   render() {
     return (
       <div>
         <Login />
-          <div id="main">
+        <div id="main">
           <Register />
-          </div>
-          <div id="footer">
-          <a href="#" id="forgot_pass">Contact Us</a>
         </div>
+        { /* <div id="footer">
+          <a href="#" id="forgot_pass">Contact Us</a>
+    </div> */}
       </div>
     );
   }
@@ -36,7 +43,8 @@ class Register extends Component {
       hashpwd:"",
       gender:"",
       resume:"",
-      profileImage:""
+      profileImage:"",
+      id:''
     };
   }
 
@@ -71,7 +79,6 @@ class Register extends Component {
           flag:true
         })
       }else{
-        console.log(res.data)
         alert("Username already exists");
         this.setState({
           flag:false
@@ -113,7 +120,15 @@ class Register extends Component {
         }
       })
       .then(res => {
-        alert("Updated")
+        console.log(res.data)
+        this.setState({
+          id:res.data
+        })
+        console.log(this.refs['register'].nextSibling.childNodes[0])
+        this.refs['register'].classList.remove('show')
+        this.refs['register'].classList.add('hide')
+        this.refs['register'].nextSibling.childNodes[0].classList.add('show')
+        this.refs['register'].nextSibling.childNodes[0].classList.remove('hide')
       }).catch(function (error) {
         console.log(error);
       })
@@ -123,7 +138,8 @@ class Register extends Component {
   }
   render(){
     return(
-      <div className="signup_form">
+      <div>
+      <div ref='register' id='register' className="signup_form show">
             <h1>
                 Join Now 
             </h1>
@@ -142,14 +158,18 @@ class Register extends Component {
               <br />
               <input type="file" onChange={this.uploadImage} className="Password_signup text_signup" placeholder="Please Choose Profile Image"/>
               <br />
-              <input type="submit" value="Sign Up" disabled={!this.validateForm()} id="signUpbtn"/>
+              <input type="submit" value="Sign Up" disabled={!this.validateForm()} className="signUpbtn"/>
               <br />
               <br />
              </form> 
           </div>
+          <Education id={this.state.id} uname={this.state.uname} />
+
+        </div>
     );
   }
 }
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -159,6 +179,7 @@ class Login extends Component {
       password: ""
     };
   }
+
 
   validateForm=e=> {
     return this.state.uname.length > 0 && this.state.password.length > 0;
@@ -172,7 +193,6 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('calling handle submit '+this.state.uname)
     axios.get('http://localhost:8000/api/candidate/'+this.state.uname,  {
       headers: {
           'Content-Type': 'application/json',
@@ -184,11 +204,11 @@ class Login extends Component {
       }
   })
     .then(res => {
-      console.log(res)
       var crypto = require('crypto');
       var hash = crypto.createHash('md5').update(this.state.password).digest('hex');
-      if(hash===res.data.cand_pwd){
+      if(res.data&&hash===res.data.cand_pwd){
         localStorage.setItem('user', this.state.uname);
+        localStorage.setItem('id', res.data.cand_id);
         history.push("/cand/home");
       }
       else{
@@ -201,20 +221,194 @@ class Login extends Component {
 
   render(){
     return(
-      <div id="header">
-        <div className="grid-container">
-          <div className="grid-item left">CoderConnect</div>
-          <div className="grid-item right">
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" onChange={this.handleChange} id="uname" name="uname" placeholder="Email or Phone Number"/>
-            <input type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/>
-            <input type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/>
-            <a href="#" id="forgot_pass">Forgot password?</a>
-            </form>
-          </div>
+            <ul className="loginnav">
+                <li><div>CoderConnect</div></li>
+                <form onSubmit={this.handleSubmit}>
+                <li><a href="#" id="forgot_pass">Forgot password?</a></li>
+                <li><input type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/></li>
+                <li><input type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/></li>
+                <li><input type="text" onChange={this.handleChange} id="uname" name="uname" placeholder="Email or Phone Number"/></li>
+                </form>
+            </ul>
+    );
+  }
+}
+
+class Education extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      institute:'',
+      level:'',
+      fromdate:'',
+      todate:'',
+      count:0,
+      data:''
+    };
+  }
+
+  
+  addData=e=> {
+    this.state.count++;
+    this.refs['edudata'].innerHTML=this.refs['edudata'].innerHTML+"<div>"+this.state.count+"</div><div>"+this.state.institute+"</div><div>"+this.state.level+"</div><div>"+this.state.fromdate+"</div><div>"+this.state.todate+"</div>"      
+    let oldval=''
+    if(this.state.data){
+      oldval=this.state.data.concat(',')
+    }
+    let newval=JSON.stringify({
+      cand_id:this.props.id,
+      cand_institute:this.state.institute,
+      cand_level:this.state.level,
+      cand_fromdate:this.state.fromdate,
+      cand_todate:this.state.todate,
+    });
+    this.setState({
+      data:oldval.concat(newval)
+    })
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  handleSubmit=event=>{
+    event.preventDefault();
+    axios.post('http://localhost:8000/api/candidate/education',  '['.concat(this.state.data).concat(']') ,  {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        this.refs['education'].classList.remove('show')
+        this.refs['education'].classList.add('hide')
+        this.refs['education'].nextSibling.classList.add('show')
+        this.refs['education'].nextSibling.classList.remove('hide')  
+      }).catch(function (error) {
+        console.log(error);
+      })
+
+  }
+
+  render(){
+    return(
+      <div>
+      <div ref='education' id='education' className="signup_form hide">
+        <h1>
+          Enter Education 
+        </h1>
+        <div ref='edudata' className='edugrid'></div>
+        <div className="content">
+          <form >
+            <input type="text" onBlur={this.handleChange} name='institute' className="Institution text_signup" placeholder="Enter Institution Name"/>
+            <br />
+            <input type="text" name='level' className="LevelOfStudy text_signup" onBlur={this.handleChange} placeholder="Enter Level of Study"/>
+            <br />
+            From Date&nbsp;<input type="date" name='fromdate' className="FromDate text_signup" onBlur={this.handleChange}/>
+            <br />
+            To Date&nbsp;<input type="date" name='todate' className="ToDate text_signup" onBlur={this.handleChange}/>
+            <br />
+            <input type='button' value='Add' onClick={this.addData}/>
+            
+          </form>
+          <br />                         
+          <br/>
+          <input type='submit' value='Next' className='signUpbtn' onClick={this.handleSubmit}/>
+        </div>
+      </div>
+      <Employment id={this.props.id} uname={this.props.uname}/>
+      </div>
+    );
+  }
+}
+
+
+
+class Employment extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      employer:'',
+      designation:'',
+      fromdate:'',
+      todate:'',
+      count:0,
+      data:''
+    };
+  }
+
+  
+  addData=e=> {
+    this.state.count++;
+    this.refs['compdata'].innerHTML=this.refs['compdata'].innerHTML+"<div>"+this.state.count+"</div><div>"+this.state.employer+"</div><div>"+this.state.designation+"</div><div>"+this.state.fromdate+"</div><div>"+this.state.todate+"</div>"      
+    let oldval=''
+    if(this.state.data){
+      oldval=this.state.data.concat(',')
+    }
+    let newval=JSON.stringify({
+      cand_id:this.props.id,
+      employer:this.state.employer,
+      designation:this.state.designation,
+      emp_fromdate:this.state.fromdate,
+      emp_todate:this.state.todate,
+    });
+    this.setState({
+      data:oldval.concat(newval)
+    })
+  }
+
+  handleChange = event => {
+    console.log(event.target.name,event.target.value)
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    console.log(this.state)
+  }
+
+  handleSubmit=event=>{
+    event.preventDefault();
+    axios.post('http://localhost:8000/api/candidate/employment',  '['.concat(this.state.data).concat(']') ,  {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        localStorage.setItem('user', this.props.uname);
+        localStorage.setItem('id', this.props.id);
+        history.push("/cand/home");
+      }).catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  render(){
+    return(
+      <div ref='employment' id='employment' className="signup_form hide">
+        <h1>
+          Enter Employment Details
+        </h1>
+        <div ref='compdata' className='compgrid'></div>
+        <div className="content">
+          <form >
+            <input type="text" onChange={this.handleChange} name='employer' className="Institution text_signup" placeholder="Enter Employers Name"/>
+            <br />
+            <input type="text" name='designation' className="LevelOfStudy text_signup" onChange={this.handleChange} placeholder="Enter Designation"/>
+            <br />
+            From Date&nbsp;<input type="date" name='fromdate' className="FromDate text_signup" onChange={this.handleChange}/>
+            <br />
+            To Date&nbsp;<input type="date" name='todate' className="ToDate text_signup" onChange={this.handleChange}/>
+            <br />
+            <input type='button' value='Add' onClick={this.addData}/>
+            
+          </form>
+          <br />                         
+          <br/>
+          <input type='submit' value='Submit' className='signUpbtn' onClick={this.handleSubmit}/>
         </div>
       </div>
     );
   }
 }
+
 export default withRouter(App);

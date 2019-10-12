@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
-import './Nav.css';
+import './EmpNav.css';
 import history from './history';
 
-class Nav extends Component {
+class EmpNav extends Component {
 
     logout=e=>{
-        localStorage.removeItem('user');
-        localStorage.removeItem('id');
+        localStorage.removeItem('emp_user');
+        localStorage.removeItem('emp_id');
         history.push('/');
     }
 
@@ -16,13 +16,13 @@ class Nav extends Component {
                 <li><div>CoderConnect</div></li>
                 
                 <li><a href="#" id="homePageLink" onClick={this.logout}> Logout</a></li>
-                <li><a href="#" id="homePageLink"> Upload Resume</a></li>
-                <li><a href="#" id="homePageLink"> Search Jobs</a></li>
+                <li><a href="#" id="homePageLink"> Search Candidate</a></li>
+                <li><a href="#" id="homePageLink"> Post Jobs</a></li>
                 <li><a href="update" id="homePageLink"> Update Profile Details</a></li>
                 <li><a href="home" id="homePageLink"> Home</a></li>
-            </ul>
+            </ul>       
         );
     }
 }
 
-export default Nav;
+export default EmpNav;
