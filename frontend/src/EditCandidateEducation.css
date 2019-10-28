@@ -12,3 +12,8 @@
     padding:2%;
     border-style: none groove solid none;
 }
+
+.addbutton{
+    margin-right: 2%;
+    float: right;
+}

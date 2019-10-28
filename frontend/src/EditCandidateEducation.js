@@ -8,7 +8,8 @@ class EditCandidateEducation extends Component {
     constructor(props) {
         super(props);
         this.state={
-            val:""
+            val:"",
+            cnt:0
         }
         this.getData()
         
@@ -38,7 +39,8 @@ class EditCandidateEducation extends Component {
                 dataarray.push(<div key={c++}><input id={c++} onClick={this.update} type="button" value="update" /><button id={c++} onClick={this.deletefun} >Delete</button></div>)
             });
             this.setState({
-                val:dataarray
+                val:dataarray,
+                cnt:count
             })               
         }).catch(function (error) {
             console.log(error)
@@ -87,13 +89,54 @@ class EditCandidateEducation extends Component {
             console.log(error)
         })
     }
+    addElem=event=>{
+        let count=this.state.cnt
+        let c=100+(count*7)
+        let dataarray=this.state.val
+        dataarray.push(<div key={c++}>{count++}</div>)
+        dataarray.push(<div key={c++}><input id={c} type="text" defaultValue='' /></div>)
+        dataarray.push(<div key={c++}><input id={c} type="text" defaultValue='' /></div>)
+        dataarray.push(<div key={c++}><input id={c} type="date" defaultValue= ''/></div>)
+        dataarray.push(<div key={c++}><input id={c} type="date" defaultValue=''/></div>)
+        dataarray.push(<div key={c++}><button id={c++} onClick={this.insert} >Insert</button></div>)
+        this.setState({
+            val:dataarray,
+            cnt:count
+        })
+    }
+
+    insert(event){
+        let did=event.target.id
+        let institution_name=document.getElementById(did-4).value
+        let edu_level=document.getElementById(did-3).value
+        let from=document.getElementById(did-2).value
+        let to=document.getElementById(did-1).value
+        let data=JSON.stringify({
+            cand_id:localStorage.getItem('id'),
+            cand_institute:institution_name,
+            cand_level:edu_level,
+            cand_fromdate:from,
+            cand_todate:to,
+        });
+        
+        axios.post('http://localhost:8000/api/candidate/education', '['.concat(data).concat(']'), {
+            headers: {
+                'Content-Type': 'application/json',
+             }
+        }).then(res=>{
+            window.location.reload();
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
 
     render() {
         return (
             <div className='editcandedu'>
                 <div className="editedugrid">
                 {this.data()}    
-                 </div>
+                </div>
+                <button onClick={this.addElem} className='addbutton'>Add</button>
             </div>
         );
     }

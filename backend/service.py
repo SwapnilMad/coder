@@ -40,8 +40,7 @@ def candinsert():
 def candeduinsert():
     data=request.get_json()
     for d in data:
-        print(d)
-        edu=Education_Historys(cand_id=d['cand_id'],institution_name=d['cand_institute'],level_of_study=d['cand_level'],from_date=d['cand_fromdate'],to_date=d['cand_todate'])
+        edu=Education_Historys(cand_id=int(d['cand_id']),institution_name=d['cand_institute'],level_of_study=d['cand_level'],from_date=d['cand_fromdate'],to_date=d['cand_todate'])
         db.session.add(edu)
         db.session.commit()
     return "success"
@@ -70,7 +69,7 @@ def candempinsert():
         db.session.commit()
     return "success"
 
-@app.route('/api/candidate/education/<string:eh_id>',methods=['PUT','DELETE'])
+@app.route('/api/candidate/employment/<string:eh_id>',methods=['PUT','DELETE'])
 def updatedeletecandemp(eh_id):
     emp = db.session.query(Employment_History).filter_by(eh_id=eh_id).first()
     if request.method=='DELETE':
