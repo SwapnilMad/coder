@@ -1,4 +1,6 @@
 # CoderConnect
+To setup database
+1)python databasecreate.py
 
 Steps to run the frontend
 1) cd frontend
