@@ -136,7 +136,7 @@ class EditCandidateEmployment extends Component {
 
     render() {
         return (
-            <div ref='employment' className='editcandedu'>
+            <div ref='employment' className='mainbody editcandedu'>
                 <div className="editedugrid">
                 {this.data()}    
                 </div>

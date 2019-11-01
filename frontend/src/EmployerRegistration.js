@@ -185,7 +185,7 @@ class Login extends Component {
             })
 
             localStorage.setItem('emp_user', this.state.emp_email);
-            localStorage.setItem('emp_id', this.res.data);
+            localStorage.setItem('emp_id', res.data);
             history.push("/emp/home");
         }).catch(function (error) {
             console.log(error);

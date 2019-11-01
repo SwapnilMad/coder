@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import './EditCandidateEducation.css';
 import axios from 'axios'
-import history from './history';
 
 class EditCandidateEducation extends Component {
 
@@ -132,7 +131,7 @@ class EditCandidateEducation extends Component {
 
     render() {
         return (
-            <div className='editcandedu'>
+            <div className='editcandedu mainbody'>
                 <div className="editedugrid">
                 {this.data()}    
                 </div>

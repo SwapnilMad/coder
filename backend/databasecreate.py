@@ -80,8 +80,8 @@ class Job(db.Model):
     job_id = db.Column(db.Integer,primary_key=True)
     job_title = db.Column(db.String(30), nullable=False)
     designation = db.Column(db.String(20), nullable=False)
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    expiry_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_created = db.Column(db.String(20), nullable=False, default=datetime.utcnow)
+    expiry_date = db.Column(db.String(20), nullable=False, default=datetime.utcnow)
     e_id = db.Column(db.Integer,db.ForeignKey('employer.emp_id'),nullable=False)
     short_description = db.Column(db.String(20))
 

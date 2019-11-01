@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import './App.css';
+import './PostJobs.css';
 import axios from 'axios'
 import { withRouter } from "react-router-dom";
 import history from './history';
@@ -22,27 +22,66 @@ class PostJobs extends Component{
 }
 
 class Details extends Component{
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            title:'',
+            designation:'',
+            expirydate:'',
+            description:''
+        };
+    }
+
+    handleChange = event => {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+    }
+    handleSubmit=e=>{
+        e.preventDefault();
+        let date=new Date();
+        let date_created=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+        let data=JSON.stringify({
+          title:this.state.title,
+          designation:this.state.designation,
+          date_created:date_created,
+          expiry_date:this.state.expirydate,
+          e_id:localStorage.getItem('emp_id'),
+          description:this.state.description
+        });
+
+        axios.post('http://localhost:8000/api/jobs',  data ,  {
+        headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            alert('Job added')
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
     render(){
         return(
             <div className="signup_form">
                 <h1>Please Enter Details</h1>
-                    Job Title:&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" name="title" className="Job Title text_signup" placeholder="Enter Job Title"/>
-                    <br />
-                    Designation:    
-                    <input type="text" name="designation" className="companyName text_signup" placeholder="Enter Company Name "/>
-                    <br />
-                    Expiry:&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-                    <input type="date" name="expirydate" placeholder="Enter Job Location or Address"/>
-                    <br /><br />
-                    Job Description:
-                    <textarea rows="3" cols="40"> </textarea>
-                    <br /><br />
+                <form  onSubmit={this.handleSubmit}>
+                    <div className="jobgrid">
+                        <p>Job Title</p>
+                        <input type="text" onChange={this.handleChange} name="title" className="Job Title text_signup" placeholder="Enter Job Title"/>
+                        <p>Designation:</p> 
+                        <input type="text" name="designation" onChange={this.handleChange} className="companyName text_signup" placeholder="Enter Company Name "/>
+                        <p>Expiry:</p>
+                        <input type="date" name="expirydate" onChange={this.handleChange} placeholder="Enter Job Location or Address"/>
+                        <p>Job Description:</p>
+                        <textarea rows="3" cols="40" onChange={this.handleChange} name="description" defaultValue="" />
+                                
+                    </div>
                     <center>
-                    <input type="button" value="Cancel" className="cancel"/>
-                    <input type="button" value="Post" className="Post"/>
-                    </center>              
-                    
+                        <input type="submit" value="Post" className="signUpbtn"/>
+                    </center>    
+                </form> 
             </div>
 
 

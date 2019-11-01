@@ -17,6 +17,8 @@ import EmployerRegistration from './EmployerRegistration'
 import EditEmployerProfile from './EditEmployerProfile'
 import * as serviceWorker from './serviceWorker';
 import history from './history';
+import EditJobPost from './EditJobPost';
+import SearchJobs from './SearchJobs';
 
 const routing = (
     <Router history={history} >
@@ -28,11 +30,13 @@ const routing = (
         <Route path="/cand/edit" component={EditProfile} />
         <Route path="/cand/editedu" component={EditCandidateEducation} />
         <Route path="/cand/editemp" component={EditCandidateEmployment} />
+        <Route path="/cand/searchjobs" component={SearchJobs} />
         <Route path="/emp" component={EmpNav} />
         <Route exat path="/empregister" component={EmployerRegistration} />
         <Route path="/emp/home" component={EmployerHome} />
         <Route path="/emp/update" component={Employerprofile} />
         <Route path="/emp/jobpost" component={PostJobs} />
+        <Route path="/emp/editjobpost" component={EditJobPost} />
         <Route path="/emp/edit" component={EditEmployerProfile} />
       </div>
     </Router>

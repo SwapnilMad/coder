@@ -2,8 +2,9 @@ import os
 import json
 from flask import Flask,request
 from flask_cors import CORS
-from databasecreate import db,Candidate,AlchemyEncoder,Education_Historys,Employment_History,Employer
+from databasecreate import db,Candidate,AlchemyEncoder,Education_Historys,Employment_History,Employer,Job
 from werkzeug import secure_filename
+from sqlalchemy import or_
 
 UPLOAD_FOLDER = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/public/candidateImage'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -119,6 +120,11 @@ def showall():
     cand=db.session.query(Candidate).all()
     return json.dumps(cand,cls=AlchemyEncoder)
 
+@app.route('/api/candidatelike/<string:cand>',methods=['GET'])
+def showalllike(cand):
+    cand=db.session.query(Candidate).filter(or_(Candidate.cand_fname.like(cand+'%'),Candidate.cand_lname.like(cand+'%'))).all()
+    return json.dumps(cand,cls=AlchemyEncoder)
+
 @app.route('/api/candidate/education',methods=['GET'])
 def showallcandedu():
     edu=db.session.query(Education_Historys).all()
@@ -148,7 +154,6 @@ def showallemployer():
 @app.route('/api/employer',methods=['POST'])
 def emprinsert():
     data=request.get_json()
-    print(data)
     empr=Employer(emp_pwd=data['emp_pwd'],emp_fname=data['emp_name'],emp_lname=data['emp_full_name'],
         emp_email_id=data['emp_email_id'],emp_address=data['emp_address'],emp_sub_plan='123',emp_contact_no=data['emp_contact_no'])
     db.session.add(empr)
@@ -177,6 +182,45 @@ def updatedeleteempr(empr):
 def empremailexist(email_id):
     empr=db.session.query(Employer).filter_by(emp_email_id=email_id).first()
     return  json.dumps(empr,cls=AlchemyEncoder)
+
+@app.route('/api/employer/id/<string:e_id>',methods=['GET'])
+def getempbyid(e_id):
+    empr=db.session.query(Employer).filter_by(emp_id=e_id).first()
+    return  json.dumps(empr,cls=AlchemyEncoder)
+
+#Jobs
+@app.route('/api/jobs',methods=['POST'])
+def postjobs():
+    data=request.get_json()
+    job=Job(job_title=data['title'],designation=data['designation'],date_created=data['date_created'],expiry_date=data['expiry_date'],e_id=data['e_id'],short_description=data['description'])
+    db.session.add(job)
+    db.session.commit()
+    return "success"
+
+@app.route('/api/jobs/<string:cid>',methods=['GET'])
+def showalljobs(cid):
+    job=db.session.query(Job).filter_by(e_id=cid).all()
+    return json.dumps(job,cls=AlchemyEncoder)
+
+@app.route('/api/jobs/<string:jid>',methods=['PUT','DELETE'])
+def updatedeletejobs(jid):
+    job = db.session.query(Job).filter_by(job_id=jid).first()
+    if request.method=='DELETE':
+        db.session.delete(job)
+        db.session.commit()
+    elif request.method=='PUT':
+        data = request.get_json()
+        job.job_title=data['title']
+        job.designation=data['designation']
+        job.expiry_date=data['expiry_date']
+        job.short_description=data['description']        
+        db.session.commit()
+    return 'success'
+
+@app.route('/api/jobs',methods=['GET'])
+def showjobs():
+    job=db.session.query(Job).all()
+    return json.dumps(job,cls=AlchemyEncoder)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)

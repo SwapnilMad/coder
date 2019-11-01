@@ -1,4 +1,4 @@
-body{
+html,body{
   margin: 0;
   background-image: linear-gradient(#f7f8f8,#acbb78);
   
@@ -6,11 +6,14 @@ body{
  
 
 #main{
-   width: 100%; 
-    height: 93vh;
+  width: 100%; 
+  height: 91.5vh;
+  padding-top:8vh ;
   /* object-fit: contain; */
 } 
-
+.mainbody{
+  padding-top:9vh ;
+}
 #footer{
   width: 100%;
   /* height: 10%; */

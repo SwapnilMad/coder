@@ -1,0 +1,26 @@
+.jobgrid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.jobgrid>p{
+    margin-left:10%;
+    text-align: left;
+}
+
+.jobgrid>input{
+    margin-left:0;
+    margin-bottom: 2%;
+    width: 158px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.jobgrid>textarea{
+    box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  margin-bottom: 2%;
+}
