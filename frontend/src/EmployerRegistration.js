@@ -75,19 +75,15 @@ class Login extends Component {
   
     render(){
       return(
-        <div id="header">
-          <div className="grid-container">
-            <div className="grid-item left">CoderConnect</div>
-            <div className="grid-item right">
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" onChange={this.handleChange} id="email_id" name="email_id" placeholder="Email or Phone Number"/>
-              <input type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/>
-              <input type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/>
-              <a href="#" id="forgot_pass">Forgot password?</a>
-              </form>
-            </div>
-          </div>
-        </div>
+        <ul className="loginnav">
+        <li><div>CoderConnect</div></li>
+        <form onSubmit={this.handleSubmit}>
+        <li><a href="#" id="forgot_pass">Forgot password?</a></li>
+        <li><input type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/></li>
+        <li><input type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/></li>
+        <li><input type="text" onChange={this.handleChange} id="uname" name="uname" placeholder="Email or Phone Number"/></li>
+        </form>
+    </ul>
       );
     }
   }

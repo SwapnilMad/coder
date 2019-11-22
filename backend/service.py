@@ -90,6 +90,11 @@ def canexist(ucand):
     cand=db.session.query(Candidate).filter_by(cand_uname=ucand).first()
     return  json.dumps(cand,cls=AlchemyEncoder)
 
+@app.route('/api/candidate/id/<string:ucand>',methods=['GET'])
+def getcandbyid(ucand):
+    cand=db.session.query(Candidate).filter_by(cand_id=ucand).first()
+    return  json.dumps(cand,cls=AlchemyEncoder)
+
 @app.route('/api/candidate/<string:ucand>',methods=['PUT','DELETE'])
 def updatedeletecand(ucand):
     cand = db.session.query(Candidate).filter_by(cand_uname=ucand).first()

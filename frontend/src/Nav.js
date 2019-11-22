@@ -32,8 +32,7 @@ class Nav extends Component {
                  }
             }).then(res=>{
                 res.data.forEach(element => {
-                    console.log(element)
-                    dataarray.push(<li key={c++}><div><a>{element.cand_fname} {element.cand_lname}</a></div></li>)
+                    dataarray.push(<li key={c++}><div><a href={'/cand/profile/'+element.cand_id} >{element.cand_fname} {element.cand_lname}</a></div></li>)
                 })
                 this.setState({
                     val:dataarray,
@@ -54,9 +53,9 @@ class Nav extends Component {
                 
                 <li><a href="#" id="homePageLink" onClick={this.logout}> Logout</a></li>
                 <li><a href="#" id="homePageLink"> Upload Resume</a></li>
-                <li><a href="searchjobs" id="homePageLink"> Search Jobs</a></li>
-                <li><a href="update" id="homePageLink"> Update Profile Details</a></li>
-                <li><a href="home" id="homePageLink"> Home</a></li>
+                <li><a href="/cand/searchjobs" id="homePageLink"> Search Jobs</a></li>
+                <li><a href="/cand/update" id="homePageLink"> Update Profile Details</a></li>
+                <li><a href="/cand/home" id="homePageLink"> Home</a></li>
                 
             </ul>
         );

@@ -19,6 +19,7 @@ import * as serviceWorker from './serviceWorker';
 import history from './history';
 import EditJobPost from './EditJobPost';
 import SearchJobs from './SearchJobs';
+import CandProfile from './CandProfile';
 
 const routing = (
     <Router history={history} >
@@ -31,6 +32,7 @@ const routing = (
         <Route path="/cand/editedu" component={EditCandidateEducation} />
         <Route path="/cand/editemp" component={EditCandidateEmployment} />
         <Route path="/cand/searchjobs" component={SearchJobs} />
+        <Route exact path="/cand/profile/:id" component={CandProfile} />
         <Route path="/emp" component={EmpNav} />
         <Route exat path="/empregister" component={EmployerRegistration} />
         <Route path="/emp/home" component={EmployerHome} />
