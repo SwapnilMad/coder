@@ -222,5 +222,12 @@ def showjobs():
     job=db.session.query(Job).all()
     return json.dumps(job,cls=AlchemyEncoder)
 
+@app.route('/api/jobs/search', methods=['GET'])
+def jobs_search():
+    keywords = request.args.get('keywords')
+    print(keywords)
+    results = Job.query.msearch(keywords,fields=['title'],limit=3)
+    return json.dumps(list(results),cls=AlchemyEncoder)
+   
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
