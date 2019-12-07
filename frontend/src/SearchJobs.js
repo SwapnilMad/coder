@@ -79,7 +79,49 @@ class SearchJobs extends Component{
         })
     }
 
-    
+    getJobs=(e)=>{
+        let c=0
+        let dataarray=[]
+        axios.get('http://localhost:8000/api/jobs/search',  {
+            headers: {
+                'Content-Type': 'application/json',
+             },
+             params:{
+                keywords:e.target.value
+             }
+        }).then(res => {
+            dataarray.push(<div key={c++}>Sr. No</div>)
+            dataarray.push(<div key={c++}>Job Title</div>)
+            dataarray.push(<div key={c++}>Designation</div>)
+            dataarray.push(<div key={c++}>Date Created</div>)
+            dataarray.push(<div key={c++}>Job Expiry</div>)
+            dataarray.push(<div key={c++}>Description</div>)
+            dataarray.push(<div key={c++}>Action</div>)
+            let count=1;
+            res.data.forEach(element => {
+                dataarray.push(<div key={c++}>{count++}</div>)
+                dataarray.push(<input key={c++} type='hidden' id={c} value={element.e_id} />)
+                dataarray.push(<div key={c++}>{element.job_title}</div>)
+                dataarray.push(<input key={c++} type='hidden' id={c} value={element.job_title} />)
+                dataarray.push(<div key={c++}>{element.designation}</div>)
+                dataarray.push(<input key={c++} type='hidden' id={c} value={element.designation} />)           
+                dataarray.push(<div key={c++}>{element.date_created}</div>)
+                dataarray.push(<input key={c++} type='hidden' id={c} value={element.date_created} />)
+                dataarray.push(<div key={c++}>{element.expiry_date}</div>)
+                dataarray.push(<input key={c++} type='hidden' id={c} value={element.expiry_date} />)
+                dataarray.push(<div key={c++}>{element.short_description}</div>)
+                dataarray.push(<input key={c++} type='hidden' id={c} value={element.short_description} />)
+                dataarray.push(<div key={c++}><input id={c++} onClick={this.openModal} type="button" value="Apply" /></div>)
+            });
+            this.setState({
+                val:dataarray,
+                cnt:count
+            })                             
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+
     openModal=e=> {
         let id=e.target.id
         this.setState({
@@ -115,11 +157,14 @@ class SearchJobs extends Component{
     data=()=>{
         return this.state.val
     }
+
+
     render(){
         return(
             <div  className='mainbody editcandedu'>
+                <input type="text" placeholder="Search Jobs"  onKeyUp={this.getJobs} />
                 <div className="editjobsgrid">
-                    {this.data()}
+                    {this.state.val}
                 </div>  
                 <Modal
                     isOpen={this.state.modalIsOpen}

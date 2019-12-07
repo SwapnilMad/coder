@@ -40,7 +40,7 @@ class UpdateProfile extends Component {
               <a href="editemp" > Edit Employment History</a>
               <br />
               <br />
-              <a href="#" > Edit Resume</a>
+              <a href="upres" > Edit Resume</a>
               <br />
               <br />
               <a href="#" >Update Subscriptions</a>

@@ -7,10 +7,12 @@ from werkzeug import secure_filename
 from sqlalchemy import or_
 
 UPLOAD_FOLDER = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/public/candidateImage'
+UPLOAD_FOLDER_RESUME = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/public/resumes'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER_RESUME'] = UPLOAD_FOLDER_RESUME
 CORS(app)
 
 
@@ -26,6 +28,19 @@ def upload_file(ucand):
         if f and allowed_file(f.filename):           
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(ucand+'.jpg')))
             return 'success'
+
+@app.route('/api/candidate/resume/<string:ucand>',methods=['POST'])
+def upload_resume(ucand):
+    print('hit received')
+    if request.method=='POST':
+        f=request.files['resume']
+        #if f and allowed_file(f.filename):           
+        f.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], secure_filename(ucand+'.'+f.filename.split('.')[1])))
+        cand = db.session.query(Candidate).filter_by(cand_uname=ucand).first()
+        cand.resume=ucand+'.'+f.filename.split('.')[1]
+        db.session.commit()
+        return json.dumps(cand,cls=AlchemyEncoder)
+
 
 @app.route('/api/candidate',methods=['POST'])
 def candinsert():
@@ -226,6 +241,16 @@ def updatedeletejobs(jid):
 def showjobs():
     job=db.session.query(Job).all()
     return json.dumps(job,cls=AlchemyEncoder)
+
+@app.route('/api/jobs/search', methods=['GET'])
+def jobs_search():
+    keywords = request.args.get('keywords')
+    print(keywords)
+   # cand=db.session.query(Candidate).filter(or_(Candidate.cand_fname.like(cand+'%'),Candidate.cand_lname.like(cand+'%'))).all()
+  
+    results=db.session.query(Job).filter(Job.job_title.like('%'+keywords+'%')).all()
+#    results = Job.query.msearch(keywords,fields=['title'],limit=3).all()
+    return json.dumps(results,cls=AlchemyEncoder)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)

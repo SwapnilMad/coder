@@ -77,6 +77,8 @@ class Subscription(db.Model):
     sub_details = db.Column(db.String(20), nullable=False)
 
 class Job(db.Model):
+    __tablename__ = 'job'
+    __searchable__ = ['designation', 'job_title', 'short_description']
     job_id = db.Column(db.Integer,primary_key=True)
     job_title = db.Column(db.String(30), nullable=False)
     designation = db.Column(db.String(20), nullable=False)
