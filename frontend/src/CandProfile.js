@@ -15,8 +15,25 @@ class CandProfile extends Component {
             designation:'',
             experience:'',
             education:'',
+            follow:false,
+            f_id:props.match.params.id,
+            followvalue:''
         }
         let c=0;
+        let data=JSON.stringify({
+            f_id:this.state.f_id
+          });
+        axios.put('http://localhost:8000/api/candidate/follow/'+localStorage.getItem('id'),data,  {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res=>{
+            if(res.data.length>0){
+                this.setState({
+                    follow:true
+                })
+            }
+        })
         axios.get('http://localhost:8000/api/candidate/id/'+props.match.params.id,  {
             headers: {
                 'Content-Type': 'application/json',
@@ -62,19 +79,55 @@ class CandProfile extends Component {
             this.setState({
                 experience:emparray
             })
-        })    
+        })
+        
+        
+    }
 
+    data=()=>{
+        if(this.state.follow){
+            return "Following"
+        }else{
+            return "Follow"
+        }
     }
 
     follow=e=>{
-        e.target.value="Following"
+        let data=JSON.stringify({
+            f_id:this.state.f_id
+        });
+        console.log(this.refs,data)
+        if(this.state.follow){
+            axios.delete('http://localhost:8000/api/candidate/follow/remove/'+localStorage.getItem('id')+'/'+this.state.f_id,  {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(res=>{
+               // e.target.value="Follow" 
+               this.refs.follow.value="Follow"
+               this.setState({
+                   follow:false
+               })
+            })
+        }else{
+            axios.post('http://localhost:8000/api/candidate/follow/'+localStorage.getItem('id'),data,  {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(res=>{
+                this.refs.follow.value="Following"   
+                this.setState({
+                    follow:true
+                })
+            })
+        }
     }
 
 
     render() {
         return(
             <div className="content mainbody">
-                <input type="button" id="follow" onClick={this.follow} className="btn btn-primary" value="Follow" />
+                <input ref="follow" type="button" id="follow" onClick={this.follow} className="btn btn-primary" value={this.data()} />
                     <div className="grid-container-profile">
                         <div className="grid-item grid-item1">
                           <img className="profile_img" src={'../../candidateImage/'+this.state.image} align="right"/>

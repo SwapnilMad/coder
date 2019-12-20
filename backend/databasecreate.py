@@ -87,5 +87,10 @@ class Job(db.Model):
     e_id = db.Column(db.Integer,db.ForeignKey('employer.emp_id'),nullable=False)
     short_description = db.Column(db.String(20))
 
+class Follow(db.Model):
+    fid=db.Column(db.Integer,primary_key=True)
+    u_cand_id=db.Column(db.Integer,db.ForeignKey('candidate.cand_id'),nullable=False)
+    f_cand_id=db.Column(db.Integer,db.ForeignKey('candidate.cand_id'),nullable=False)
+
 db.create_all()
 db.session.commit()

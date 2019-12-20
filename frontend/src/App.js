@@ -150,24 +150,24 @@ class Register extends Component {
       <div>
       <div ref='register' id='register' className="signup_form show">
             <h1>
-                Join Now 
+                Join Now - Get Recruited
             </h1>
-            <form onSubmit={this.handleSubmit}>  
-              <input type="text" id="fname" className="FirstName text_signup" onChange={this.handleChange} placeholder="Enter First Name"/>
+            <form className="form-group" onSubmit={this.handleSubmit}>  
+              <input type="text" id="fname" className="form-control" onChange={this.handleChange} placeholder="Enter First Name"/>
               <br />
-              <input type="text" id="lname" className="LastName text_signup" onChange={this.handleChange} placeholder="Enter last Name"/>
+              <input type="text" id="lname" className="form-control" onChange={this.handleChange} placeholder="Enter last Name"/>
               <br />
-              <input type="text" id="contact" className="ContactNo text_signup" onChange={this.handleChange} placeholder="Enter Phone Number"/>
+              <input type="text" id="contact" className="form-control" onChange={this.handleChange} placeholder="Enter Phone Number"/>
               <br />
-              <input type="email" id="email" className="Email_signup text_signup" onChange={this.handleChange} placeholder="Enter Email Address"/>
+              <input type="email" id="email" className="form-control" onChange={this.handleChange} placeholder="Enter Email Address"/>
               <br />
-              <input type="text" id="uname" className="ContactNo text_signup" onChange={this.handleChange} onBlur={this.UserNameCheck} placeholder="Enter User Name"/>
+              <input type="text" id="uname" className="form-control" onChange={this.handleChange} onBlur={this.UserNameCheck} placeholder="Enter User Name"/>
               <br />
-              <input type="password" id="pwd" className="Password_signup text_signup" onChange={this.hashPassword} placeholder="Password"/>
+              <input type="password" id="pwd" className="form-control" onChange={this.hashPassword} placeholder="Password"/>
               <br />
-              <input type="file" onChange={this.uploadImage} className="Password_signup text_signup" placeholder="Please Choose Profile Image"/>
+              <input id="exampleFormControlFile1" type="file" onChange={this.uploadImage} className="form-control-file" placeholder="Please Choose Profile Image"/>
               <br />
-              <input type="submit" value="Sign Up" disabled={!this.validateForm()} className="signUpbtn"/>
+              <input type="submit" value="Sign Up" disabled={!this.validateForm()} className="btn btn-light"/>
               <br />
               <br />
              </form> 
@@ -325,7 +325,7 @@ class Education extends Component {
           </form>
           <br />                         
           <br/>
-          <input type='submit' value='Next' className='signUpbtn' onClick={this.handleSubmit}/>
+          <input type='submit' value='Next' className='btn btn-light' onClick={this.handleSubmit}/>
         </div>
       </div>
       <Employment id={this.props.id} uname={this.props.uname}/>
@@ -415,7 +415,7 @@ class Employment extends Component {
           </form>
           <br />                         
           <br/>
-          <input type='submit' value='Submit' className='signUpbtn' onClick={this.handleSubmit}/>
+          <input type='submit' value='Submit' className='btn btn-light' onClick={this.handleSubmit}/>
         </div>
       </div>
     );

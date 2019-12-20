@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import axios from 'axios'
 import Modal from 'react-modal';
 import './SearchJobs.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 Modal.setAppElement('#root')
 const customStyles = {
@@ -68,7 +69,7 @@ class SearchJobs extends Component{
                 dataarray.push(<input key={c++} type='hidden' id={c} value={element.expiry_date} />)
                 dataarray.push(<div key={c++}>{element.short_description}</div>)
                 dataarray.push(<input key={c++} type='hidden' id={c} value={element.short_description} />)
-                dataarray.push(<div key={c++}><input id={c++} onClick={this.openModal} type="button" value="Apply" /></div>)
+                dataarray.push(<div key={c++}><input id={c++} onClick={this.openModal} className="btn btn-light" type="button" value="Apply" /></div>)
             });
             this.setState({
                 val:dataarray,
@@ -111,7 +112,7 @@ class SearchJobs extends Component{
                 dataarray.push(<input key={c++} type='hidden' id={c} value={element.expiry_date} />)
                 dataarray.push(<div key={c++}>{element.short_description}</div>)
                 dataarray.push(<input key={c++} type='hidden' id={c} value={element.short_description} />)
-                dataarray.push(<div key={c++}><input id={c++} onClick={this.openModal} type="button" value="Apply" /></div>)
+                dataarray.push(<div key={c++}><input id={c++} onClick={this.openModal} className="btn btn-light" type="button" value="Apply" /></div>)
             });
             this.setState({
                 val:dataarray,
@@ -190,7 +191,7 @@ class SearchJobs extends Component{
                             <div>{this.state.description} </div>
   
                         </div>  
-                            <input type="submit" value="Apply" />
+                            <input type="submit" className="btn btn-dark" value="Apply" />
                     </form> 
                 </Modal>
             </div>         

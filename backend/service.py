@@ -2,7 +2,7 @@ import os
 import json
 from flask import Flask,request
 from flask_cors import CORS
-from databasecreate import db,Candidate,AlchemyEncoder,Education_Historys,Employment_History,Employer,Job
+from databasecreate import db,Candidate,AlchemyEncoder,Education_Historys,Employment_History,Employer,Job,Follow
 from werkzeug import secure_filename
 from sqlalchemy import or_
 
@@ -256,6 +256,26 @@ def jobs_search():
     results=db.session.query(Job).filter(Job.job_title.like('%'+keywords+'%')).all()
 #    results = Job.query.msearch(keywords,fields=['title'],limit=3).all()
     return json.dumps(results,cls=AlchemyEncoder)
+
+@app.route('/api/candidate/follow/<string:cid>', methods=['PUT','POST'])
+def follow(cid):
+    data=request.get_json()
+    print(request.method,data)
+    if request.method=='PUT':
+        job=db.session.query(Follow).filter_by(u_cand_id=cid, f_cand_id=data['f_id']).all()
+        return json.dumps(job,cls=AlchemyEncoder)    
+    elif request.method=='POST':
+        fol=Follow(u_cand_id=cid, f_cand_id=data['f_id'])
+        db.session.add(fol)
+        db.session.commit()
+    return "success"
+
+@app.route('/api/candidate/follow/remove/<string:cid>/<string:fid>', methods=['DELETE'])
+def follow_remove(cid,fid):
+    fol = db.session.query(Follow).filter_by(u_cand_id=cid, f_cand_id=fid).first()
+    db.session.delete(fol)
+    db.session.commit()
+    return "success"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
