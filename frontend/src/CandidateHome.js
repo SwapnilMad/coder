@@ -49,12 +49,14 @@ class CandidateHome extends Component {
     render() {
         return(
             <div id="main" className="maincolor">
-                <div className="profileimage">
+                <div className="profileimage ">
                     <div className="card">
-                        <img src={'../candidateImage/'+this.state.profileImage} alt="John" />
-                        <h1>{this.state.fname} {this.state.lname}</h1>
-                        <p className="title">Senior Developer, CoderConnect</p>
-                        <p>Pace University</p>
+                        <img src={'../candidateImage/'+this.state.profileImage} className="card-img-top" alt="John" />
+                        <div class="card-body">
+                            <h5 className="card-title">{this.state.fname} {this.state.lname}</h5>
+                            <p className="card-text">Senior Developer, CoderConnect</p>
+                            <p>Pace University</p>
+                        </div>
                     </div>
                 </div>
                 <div className="jobtiles">

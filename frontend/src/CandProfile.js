@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios'
 import './CandProfile.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class CandProfile extends Component {
 
@@ -15,7 +16,7 @@ class CandProfile extends Component {
             experience:'',
             education:'',
         }
-let c=0;
+        let c=0;
         axios.get('http://localhost:8000/api/candidate/id/'+props.match.params.id,  {
             headers: {
                 'Content-Type': 'application/json',
@@ -65,10 +66,15 @@ let c=0;
 
     }
 
+    follow=e=>{
+        e.target.value="Following"
+    }
+
 
     render() {
         return(
             <div className="content mainbody">
+                <input type="button" id="follow" onClick={this.follow} className="btn btn-primary" value="Follow" />
                     <div className="grid-container-profile">
                         <div className="grid-item grid-item1">
                           <img className="profile_img" src={'../../candidateImage/'+this.state.image} align="right"/>

@@ -51,3 +51,7 @@ width: 300px;
     padding: 10px
 }
 
+#follow{
+    float: right;
+    margin-right: 10px;
+}

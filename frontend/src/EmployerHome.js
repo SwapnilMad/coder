@@ -9,8 +9,8 @@ import history from './history';
 class EmployerHome extends Component{
     render() {
         return(
-        <div>
-          <div id="main">
+        <div >
+          <div className="alice" id="main">
         { /*<Register /> */}
           </div>
           <div id="footer">

@@ -1,29 +1,3 @@
-.empnavcss{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: black;
-    height:10%;
-    width: 100%;   
-}   
-
-.empnavcss>li>a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    float: right;
-}
-
-.empnavcss>li>div{
-    color:white;
-    font-size: 40px;
-    padding-right: 50px;
-    float:left;
-}
-
-.empnavcss>li>a:hover {
-    background-color: #111;
+.log{
+    text-align: right;
 }

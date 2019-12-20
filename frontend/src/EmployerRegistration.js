@@ -81,15 +81,17 @@ class Login extends Component {
   
     render(){
       return(
-        <ul className="loginnav">
-        <li><div>CoderConnect</div></li>
-        <form onSubmit={this.handleSubmit}>
-        <li><a href="#" id="forgot_pass">Forgot password?</a></li>
-        <li><input type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/></li>
-        <li><input type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/></li>
-        <li><input type="text" onChange={this.handleChange} id="email_id" name="email_id" placeholder="Email or Phone Number"/></li>
-        </form>
-    </ul>
+        <nav className="navbar navbar-dark bg-dark"> 
+        <a className="navbar-brand" >CoderConnect</a>
+        <ul className="navbar-nav">
+          <form className="form-inline" onSubmit={this.handleSubmit}>
+            <li><input className="form-control mr-sm-2" type="text" onChange={this.handleChange} id="email_id" name="email_id" placeholder="Email or Phone Number"/></li>
+            <li><input className="form-control mr-sm-2" type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/></li>
+            <li><input className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/></li>
+            <li><a href="#" id="forgot_pass">Forgot password?</a></li>
+            </form>
+          </ul>
+      </nav>
       );
     }
   }
