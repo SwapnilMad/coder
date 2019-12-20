@@ -48,7 +48,7 @@ class CandidateHome extends Component {
     }
     render() {
         return(
-            <div id="main">
+            <div id="main" className="maincolor">
                 <div className="profileimage">
                     <div className="card">
                         <img src={'../candidateImage/'+this.state.profileImage} alt="John" />

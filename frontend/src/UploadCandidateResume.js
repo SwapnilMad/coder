@@ -41,7 +41,7 @@ class UploadCandidateResume extends Component {
   uploadResume=event=>{
     event.persist()
     const fd =new FormData();
-    fd.append('resume',event.target.files[0], event.target.files[0].name)
+    fd.append('resume', event.target.files[0], event.target.files[0].name)
     this.setState({
       resume:fd
     })

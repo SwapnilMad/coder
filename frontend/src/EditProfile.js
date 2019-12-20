@@ -103,7 +103,7 @@ class EditProfile extends Component {
       }
     render() {
         return(
-            <div id="main">
+            <div className="maincolor" id="main">
                 <div className="signup_form">
                     <h1>
                             Update Details

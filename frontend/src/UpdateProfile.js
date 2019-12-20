@@ -29,7 +29,7 @@ class UpdateProfile extends Component {
     render() {
       return (
         <div>                
-          <div id="main">
+          <div className="maincolor" id="main">
           <div className="signup_form">
               <a href="edit" > Edit Profile Details</a>
               <br />

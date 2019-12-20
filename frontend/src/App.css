@@ -1,18 +1,34 @@
 html,body{
   margin: 0;
-  background-image: linear-gradient(#f7f8f8,#acbb78);
   
 }
  
+.example{
+  position: absolute;
+}
 
+.backgroundImg{
+  background: url('/bg.jfif');
+  background-size:cover
+}
+.alice{
+  color: antiquewhite;
+}
 #main{
   width: 100%; 
   height: 91.5vh;
   padding-top:8vh ;
   /* object-fit: contain; */
+  
 } 
+
+.maincolor{
+  background-color: #EAE7DC;
+}
+
 .mainbody{
   padding-top:9vh ;
+  background-color: #EAE7DC;
 }
 #footer{
   width: 100%;
@@ -146,4 +162,10 @@ html,body{
   font-size: 40px;
   padding-right: 50px;
   float:left;
+}
+
+canvas{
+  height: 100%;
+  widows: 100%;
+  position: absolute;
 }

@@ -9,6 +9,7 @@ from sqlalchemy import or_
 UPLOAD_FOLDER = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/public/candidateImage'
 UPLOAD_FOLDER_RESUME = 'C:/Users/swapn/Documents/coder/CoderConnect/frontend/public/resumes'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_RESUME_EXTENSIONS = set(['pdf', 'docx'])
 
 app=Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -19,6 +20,10 @@ CORS(app)
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def allowed_resume(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_RESUME_EXTENSIONS
 
 @app.route('/api/candidate/image/<string:ucand>',methods=['POST'])
 def upload_file(ucand):
@@ -31,15 +36,15 @@ def upload_file(ucand):
 
 @app.route('/api/candidate/resume/<string:ucand>',methods=['POST'])
 def upload_resume(ucand):
-    print('hit received')
+    print('hit received',request.files)
     if request.method=='POST':
         f=request.files['resume']
-        #if f and allowed_file(f.filename):           
-        f.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], secure_filename(ucand+'.'+f.filename.split('.')[1])))
-        cand = db.session.query(Candidate).filter_by(cand_uname=ucand).first()
-        cand.resume=ucand+'.'+f.filename.split('.')[1]
-        db.session.commit()
-        return json.dumps(cand,cls=AlchemyEncoder)
+        if f and allowed_resume(f.filename):           
+            f.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], secure_filename(ucand+'.'+f.filename.split('.')[1])))
+            cand = db.session.query(Candidate).filter_by(cand_uname=ucand).first()
+            cand.resume=ucand+'.'+f.filename.split('.')[1]
+            db.session.commit()
+            return json.dumps(cand,cls=AlchemyEncoder)
 
 
 @app.route('/api/candidate',methods=['POST'])

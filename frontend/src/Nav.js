@@ -52,7 +52,6 @@ class Nav extends Component {
                 <li><input type="text" placeholder="Search" onKeyUp={this.getUser} /><span><ul className='suggestions'>{this.data()}</ul></span></li>
                 
                 <li><a href="#" id="homePageLink" onClick={this.logout}> Logout</a></li>
-                <li><a href="#" id="homePageLink"> Upload Resume</a></li>
                 <li><a href="/cand/searchjobs" id="homePageLink"> Search Jobs</a></li>
                 <li><a href="/cand/update" id="homePageLink"> Update Profile Details</a></li>
                 <li><a href="/cand/home" id="homePageLink"> Home</a></li>

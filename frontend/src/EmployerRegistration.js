@@ -3,6 +3,9 @@ import './UpdateProfile.css';
 import axios from 'axios'
 import history from './history';
 
+import Particles from 'react-particles-js';
+import * as js from './resource/particles.json'
+
 class EmployerRegistration extends Component {
 
     constructor(props) {
@@ -13,7 +16,10 @@ class EmployerRegistration extends Component {
         return (
             <div>
                 <Login />
-                <div id="main">
+                <Particles canvasClassName="backgroundImg" params={
+          js.default
+        } />
+                <div id="main" className="example alice">
                     <Register />
                 </div>
         { /* <div id="footer">
@@ -81,7 +87,7 @@ class Login extends Component {
         <li><a href="#" id="forgot_pass">Forgot password?</a></li>
         <li><input type="submit" value="Sign In" id="signbtn" disabled={!this.validateForm()}/></li>
         <li><input type="password" onChange={this.handleChange} id="password" name="password" placeholder="Password"/></li>
-        <li><input type="text" onChange={this.handleChange} id="uname" name="uname" placeholder="Email or Phone Number"/></li>
+        <li><input type="text" onChange={this.handleChange} id="email_id" name="email_id" placeholder="Email or Phone Number"/></li>
         </form>
     </ul>
       );

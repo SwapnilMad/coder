@@ -3,6 +3,8 @@ import './App.css';
 import axios from 'axios'
 import { withRouter } from "react-router-dom";
 import history from './history';
+import Particles from 'react-particles-js';
+import * as js from './resource/particles.json'
 
 class App extends Component {
 
@@ -11,12 +13,18 @@ class App extends Component {
     if(localStorage.getItem('user')){
       history.push("/cand/home")
     }
+    console.log('log',js.default)
   }
+
   render() {
     return (
-      <div>
+      <div  >
+        
         <Login />
-        <div id="main">
+        <Particles canvasClassName="backgroundImg" params={
+          js.default
+        } />
+        <div id="main" className="example alice">
           <Register />
         </div>
         { /* <div id="footer">
