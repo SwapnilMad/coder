@@ -14,8 +14,8 @@ Install Python and Node to your system
 <pre>python databasecreate.py</pre>
 
 ### Running
-<p>Enter backend folder</p>
+<p>Enter backend folder and run</p>
 <pre>python service.py</pre>
 
-<p>Enter frontend folder</p>
+<p>Enter frontend folder and run</p>
 <pre>npm start</pre>
